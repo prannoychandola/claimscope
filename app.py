@@ -109,7 +109,6 @@ if __name__ == "__main__":
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("
-Stopping ClaimScope.")
+        print("\nStopping ClaimScope.")
     finally:
         server.server_close()

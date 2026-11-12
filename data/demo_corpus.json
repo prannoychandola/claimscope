@@ -1,0 +1,48 @@
+{
+  "title": "ClaimScope fictional evidence demo",
+  "notice": "Every document and claim below is invented for UI and retrieval demonstration. None is a real study or scientific result.",
+  "documents": [
+    {
+      "id": "DEMO-001",
+      "title": "A fictional comparison of retrieval strategies",
+      "section": "Results",
+      "year": "Fictional demo",
+      "text": "In a simulated collection of 600 questions, a hybrid lexical and dense retrieval system achieved recall at five of 0.82, while a BM25-only baseline achieved 0.75. These illustrative values are invented for the ClaimScope demo and are not empirical research."
+    },
+    {
+      "id": "DEMO-002",
+      "title": "A fictional note on evidence and causality",
+      "section": "Limitations",
+      "year": "Fictional demo",
+      "text": "The toy analysis reports an association between the retrieval configuration and the measured recall. It did not randomize systems, test statistical significance, or establish that hybrid retrieval causes improved performance."
+    },
+    {
+      "id": "DEMO-003",
+      "title": "A fictional model evaluation record",
+      "section": "Methods",
+      "year": "Fictional demo",
+      "text": "The example classifier was evaluated on a synthetic dataset created solely for a software demonstration. No patients or students were studied, and no clinical outcome or diagnostic label was used."
+    },
+    {
+      "id": "DEMO-004",
+      "title": "A fictional model evaluation record",
+      "section": "Results",
+      "year": "Fictional demo",
+      "text": "On the invented validation split, the toy classifier had macro F1 of 0.71. This result is a fabricated placeholder for demonstrating how a claim may be linked to evidence; it must not be cited as a real performance finding."
+    },
+    {
+      "id": "DEMO-005",
+      "title": "A fictional retrieval ablation",
+      "section": "Ablation",
+      "year": "Fictional demo",
+      "text": "Removing the reranking stage reduced recall at five from 0.82 to 0.78 in this invented example. The toy setup does not include repeated seeds or confidence intervals."
+    },
+    {
+      "id": "DEMO-006",
+      "title": "A fictional evidence boundary",
+      "section": "Discussion",
+      "year": "Fictional demo",
+      "text": "A passage may share words with a claim and still fail to support it. Topical similarity and lexical overlap are retrieval signals, not entailment or proof."
+    }
+  ]
+}

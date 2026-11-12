@@ -1,6 +1,3 @@
-Copy this into the repository’s `README.md` editor, replacing the existing contents:
-
-```markdown
 # 🔎 ClaimScope
 
 ### Local-first scientific evidence retrieval for claim review
@@ -144,4 +141,3 @@ The browser UI is a local prototype. Review labels are not persisted. Benchmark 
 ## 📜 License
 
 MIT License for ClaimScope code. Dataset terms remain separate; see [Data and Licensing](data/SCIFACT_DATA.md).
-```

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+data/private/
+data/*.csv
+data/*.xlsx
+data/*.xls
+data/scifact/
+reports/

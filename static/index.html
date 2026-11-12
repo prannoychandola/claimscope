@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2ed">
+  <title>ClaimScope | Evidence review</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="ClaimScope home"><span class="brand-mark">C</span><span>ClaimScope</span></a>
+    <div class="mode-pill"><span class="pulse"></span> Local demo · no remote model</div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">SCIENTIFIC EVIDENCE REVIEW</p>
+      <h1>Follow the claim<br><em>back to its evidence.</em></h1>
+      <p class="lede">Search for passages that may be relevant to a claim. Inspect the source text, then decide what it actually supports.</p>
+    </section>
+
+    <section class="workspace" aria-labelledby="claim-label">
+      <div class="input-card">
+        <div class="input-heading">
+          <div>
+            <label id="claim-label" for="claim-input">Claim to investigate</label>
+            <p>Try a sample claim or write your own.</p>
+          </div>
+          <span class="step">01 / CLAIM</span>
+        </div>
+        <textarea id="claim-input" rows="3" maxlength="2000" placeholder="Example: The hybrid system improved retrieval performance in the experiment."></textarea>
+        <div class="form-foot">
+          <div class="sample-wrap">
+            <span class="sample-label">SAMPLE</span>
+            <button class="sample" data-sample="Hybrid retrieval achieved recall at five of 0.82, compared with 0.75 for BM25.">Metric comparison</button>
+            <button class="sample" data-sample="The study proves hybrid retrieval causes better performance in real-world settings.">Overstated claim</button>
+            <button class="sample" data-sample="The model detects mental health risk in students with 95% accuracy.">Unsupported claim</button>
+          </div>
+          <button id="search-button" class="primary-button"><span>Find evidence</span><span aria-hidden="true">↗</span></button>
+        </div>
+        <p id="error-message" class="error" role="alert" hidden></p>
+      </div>
+    </section>
+
+    <section id="results-section" class="results-section" hidden aria-live="polite">
+      <div class="results-head">
+        <div>
+          <p class="eyebrow">02 / CANDIDATE PASSAGES</p>
+          <h2>Evidence to inspect</h2>
+        </div>
+        <span id="result-count" class="result-count"></span>
+      </div>
+      <div class="notice"><span class="notice-icon">i</span><p>Lexical retrieval finds potentially relevant passages. A match does <strong>not</strong> mean the passage supports the claim.</p></div>
+      <div id="results-list" class="results-list"></div>
+    </section>
+
+    <section class="method-note">
+      <div class="method-icon">⌕</div>
+      <div>
+        <h2>A deliberately simple baseline</h2>
+        <p>This version ranks passages with BM25 and shows term coverage. Verdict controls are for human review only; labels are not saved. The included papers are fictional interface fixtures, not scientific sources.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>ClaimScope <span class="footer-version">v0.1</span></span>
+    <span>Local-first · No claims or labels are stored</span>
+  </footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>

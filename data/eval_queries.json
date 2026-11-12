@@ -1,0 +1,25 @@
+{
+  "notice": "Invented claims and document IDs for checking the demo retrieval plumbing only. Not a scientific benchmark.",
+  "examples": [
+    {
+      "id": "Q1",
+      "claim": "Hybrid lexical and dense retrieval achieved recall at five of 0.82 while BM25 scored 0.75.",
+      "gold_evidence_ids": ["DEMO-001"]
+    },
+    {
+      "id": "Q2",
+      "claim": "The retrieval experiment proves hybrid search causes better real-world performance.",
+      "gold_evidence_ids": ["DEMO-002"]
+    },
+    {
+      "id": "Q3",
+      "claim": "A clinical study validated mental health risk detection in students.",
+      "gold_evidence_ids": ["DEMO-003"]
+    },
+    {
+      "id": "Q4",
+      "claim": "Removing reranking increased recall at five from 0.75 to 0.82.",
+      "gold_evidence_ids": ["DEMO-005"]
+    }
+  ]
+}

@@ -1,97 +1,147 @@
-# ClaimScope
+Copy this into the repository’s `README.md` editor, replacing the existing contents:
+
+```markdown
+# 🔎 ClaimScope
+
+### Local-first scientific evidence retrieval for claim review
 
 **Inspect evidence, not just citations.**
 
-ClaimScope is a local-first prototype for finding passages that may be relevant to a scientific claim. It keeps evidence retrieval separate from deciding whether the evidence supports the claim.
+> ClaimScope retrieves passages that may be relevant to a scientific claim and leaves support or contradiction judgments to a human reviewer. It is a research prototype, not an automatic fact-checker.
 
-## Current capabilities
+[View the GitHub repository](https://github.com/prannoychandola/claimscope) · [View benchmark report](benchmarks/scifact-dev-2026-11-12.md) · [View CI checks](https://github.com/prannoychandola/claimscope/actions)
 
-- Local browser UI with a fictional demo corpus.
-- BM25 lexical retrieval for interactive exploration.
-- Human review controls for supports, contradicts, partial, and insufficient.
-- BM25 and TF-IDF baselines for evidence-document retrieval on SciFact.
-- Evaluation reports evidence Recall@k and MRR, with SHA-256 hashes of the input files.
-- No API keys, paid models, remote inference, database, or persistent user claims.
+## 📖 Overview
 
-The included demo papers, claims, values, and labels are fictional software fixtures. They are not scientific sources, and their evaluation scores are not empirical results.
+Scientific claims are easier to review when the sources behind them are surfaced directly. ClaimScope provides a small local web app for exploring evidence candidates, plus reproducible BM25 and TF-IDF retrieval baselines evaluated on the SciFact development split.
 
-## Run the interactive demo
+The interactive demo uses a fictional six-passage corpus. The SciFact evaluator is a separate command-line tool and measures evidence-document retrieval only. Neither component predicts whether evidence supports or refutes a claim.
 
-Python 3.10 or newer is required. The project uses only the standard library.
+## ✨ Features
 
-    python app.py
+- 🔎 Search a claim against the local demo corpus with BM25.
+- 🧾 Inspect ranked passage candidates and their retrieval signals.
+- 👤 Mark passages for human review as supports, contradicts, partial, or insufficient.
+- 📊 Compare BM25 and unigram TF-IDF on the SciFact development split.
+- 🧪 Run unit and HTTP integration checks, plus a demo-fixture evaluation.
+- 🔐 Run locally without API keys, paid models, remote inference, or saved claims.
+- ⚖️ Keep dataset attribution separate from the MIT license for the project code.
 
-Open http://127.0.0.1:8000. Stop with Ctrl+C. Claims and review labels are not saved. The interactive UI currently searches only the fictional six-passage corpus.
+The demo papers, claims, values, and labels are fictional test fixtures. They are not scientific sources and their scores are not empirical research results.
 
-## Evaluate on SciFact
+## 🛠️ Technology Stack
 
-SciFact is an established scientific claim verification dataset. Its official documentation describes claims with evidence document IDs and sentence-level rationales. The evaluator here measures document retrieval only; it does not evaluate support/refute classification.
+| Area | Technology |
+|---|---|
+| Language | Python 3.10+ |
+| Server | Python standard-library `http.server` |
+| Retrieval | In-repository BM25 and unigram TF-IDF implementations |
+| Interface | HTML, CSS, and vanilla JavaScript |
+| Evaluation | SciFact dev split; Recall@k and MRR@k |
+| Tests | Python `unittest` and GitHub Actions |
 
-1. Download the official SciFact archive from the [AllenAI SciFact repository](https://github.com/allenai/scifact) and review its license.
-2. Extract the archive beneath data/scifact. The evaluator locates corpus.jsonl and claims_dev.jsonl recursively.
+No third-party Python packages are required for the demo or checks.
+
+## 🧭 Architecture
+
+The local interface sends a claim to the Python server. BM25 returns candidate passages from the fictional demo corpus; a relevance score is only a retrieval signal and is not a support verdict. SciFact evaluation runs separately over its abstract corpus.
+
+```text
+Interactive demo
+Browser UI → Local HTTP API → BM25 retrieval → Fictional passages → Human review
+
+Benchmark
+SciFact claims + abstracts → BM25 / TF-IDF → Ranked documents → Recall@k / MRR@k
+```
+
+## 📂 Project Structure
+
+```text
+claimscope/
+├── app.py                         Local demo server and search API
+├── retrieval.py                   BM25 and TF-IDF implementations
+├── static/                        Browser interface
+├── data/
+│   ├── demo_corpus.json           Fictional passages for the demo
+│   ├── eval_queries.json          Fictional evaluator examples
+│   └── SCIFACT_DATA.md            Dataset terms and attribution notes
+├── scripts/
+│   ├── evaluate_demo.py           Demo-fixture evaluation
+│   └── evaluate_scifact.py        SciFact retrieval evaluation
+├── tests/                          Retrieval and HTTP checks
+├── benchmarks/                     SciFact dev report and metrics
+├── .github/workflows/tests.yml     Automated checks on Python 3.10, 3.12, 3.13
+├── requirements.txt                No third-party dependencies
+└── README.md
+```
+
+## 🚀 Run Locally
+
+Python 3.10 or newer is required. The demo uses only the standard library.
+
+**Windows PowerShell**
+
+```powershell
+py -3 app.py
+```
+
+**macOS / Linux**
+
+```bash
+python3 app.py
+```
+
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Stop the server with `Ctrl+C`. The demo searches only the fictional six-passage corpus. Claims and review labels are not saved.
+
+## 🧪 Checks
+
+Run the project tests and demo fixture evaluation from the repository root:
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/evaluate_demo.py
+```
+
+GitHub Actions runs both commands on Python 3.10, 3.12, and 3.13 for pushes and pull requests. [See the workflow results](https://github.com/prannoychandola/claimscope/actions).
+
+## 📊 SciFact Benchmark
+
+SciFact contains scientific claims paired with evidence documents and sentence-level rationales. ClaimScope's evaluator uses the official dev split, ranks abstracts from the full corpus, and reports retrieval metrics for claims with annotated evidence documents. Claims without gold evidence are counted separately and skipped for retrieval metrics.
+
+| Method | Recall@1 | Recall@5 | Recall@10 | MRR@5 |
+|---|---:|---:|---:|---:|
+| BM25 | 0.712 | 0.872 | 0.931 | 0.790 |
+| Unigram TF-IDF | 0.626 | 0.869 | 0.905 | 0.734 |
+
+This run used 5,183 abstracts and 188 evidence-bearing claims. BM25 and TF-IDF were nearly tied on Recall@5; BM25 ranked the first relevant document higher on average. These are retrieval-only dev-set results, not support/refute classification, hidden test-set results, or state-of-the-art claims. The report includes input SHA-256 hashes and additional metrics in [`benchmarks/scifact-dev-2026-11-12.md`](benchmarks/scifact-dev-2026-11-12.md).
+
+### Reproduce the benchmark
+
+1. Download the official [AllenAI SciFact dataset](https://github.com/allenai/scifact) and review its dataset terms.
+2. Extract the archive beneath `data/scifact/`. The evaluator locates `corpus.jsonl` and `claims_dev.jsonl` recursively.
 3. Run the dev evaluation:
 
-    python scripts/evaluate_scifact.py --data-dir data/scifact --split dev --output reports/scifact-dev.json
+```bash
+python scripts/evaluate_scifact.py --data-dir data/scifact --split dev
+```
 
-For a quick plumbing check before the full run, use:
+For a quick setup check, add `--limit 20`. The full evaluation uses the complete abstract corpus. Keep the downloaded dataset local; it is excluded from Git by `.gitignore`.
 
-    python scripts/evaluate_scifact.py --data-dir data/scifact --split dev --limit 20
+## ⚖️ Data and Licensing
 
-The script compares BM25 and unigram TF-IDF over the full abstract corpus. It evaluates only claims with annotated evidence documents; claims without gold evidence are counted separately and skipped for retrieval metrics. The default split is dev. Use train only for development, and do not describe dev scores as test-set performance. The official test labels are not public.
+ClaimScope's code is released under the [MIT License](LICENSE). SciFact has separate terms for its components: the claim annotations use CC BY 4.0, the abstract corpus is attributed to Semantic Scholar S2ORC under ODC-By 1.0, and upstream SciFact code uses Apache 2.0. The dataset is not bundled with this repository. Review [`data/SCIFACT_DATA.md`](data/SCIFACT_DATA.md) and the [upstream license](https://github.com/allenai/scifact/blob/master/LICENSE.md) before redistributing dataset files or derived artifacts.
 
-Metrics:
-- Recall@k: fraction of annotated evidence documents retrieved in the top k.
-- MRR@k: reciprocal rank of the first relevant evidence document, averaged over queries.
+## 🔬 Method and Limitations
 
-The report records corpus/query counts and SHA-256 hashes to make runs traceable. The [SciFact dev baseline results](benchmarks/scifact-dev-2026-11-12.md) are committed with the project. On 188 evidence-bearing queries, BM25 reached 0.872 Recall@5 and 0.790 MRR@5; TF-IDF reached 0.869 and 0.734. These are retrieval-only dev results, not support/refute classification or test-set scores.
+BM25 uses term frequency and document length; TF-IDF ranks sparse unigram vectors by cosine similarity. The current implementation has no stemming, dense embeddings, reranker, or entailment model. A high retrieval score means lexical relevance, not that a passage supports a claim.
 
-## Data licenses and attribution
+The browser UI is a local prototype. Review labels are not persisted. Benchmark scores are from the dev split and have no confidence intervals or significance tests. The official SciFact test labels are not public.
 
-The official SciFact release has separate terms for its components:
+## 👨‍💻 Author
 
-- Claims and evidence annotations in claims files: CC BY 4.0.
-- Abstract corpus: Semantic Scholar S2ORC, ODC-By 1.0.
-- Upstream SciFact code: Apache 2.0.
+**Prannoy Chandola** · [GitHub](https://github.com/prannoychandola)
 
-ClaimScope's code license does not replace those data terms. The archive and corpus are not bundled; data/scifact is Git-ignored. See [data/SCIFACT_DATA.md](data/SCIFACT_DATA.md) and the upstream [license](https://github.com/allenai/scifact/blob/master/LICENSE.md) before sharing any data or derived artifacts.
+## 📜 License
 
-## Method and limits
-
-The current retrieval baselines tokenize words and rank abstracts. BM25 uses term frequency and document length; TF-IDF uses sparse unigram vectors and cosine similarity. No stemming, neural embeddings, reranker, or entailment model is implemented yet. A retrieval score measures lexical relevance, not support.
-
-A strong next milestone is to add a separately evaluated verifier using the annotated evidence sentences, then report per-class macro-F1, calibration/abstention behavior, and error analysis. Split by the official benchmark partition, and avoid tuning on the held-out test set.
-
-Related work:
-- [SciFact data and formats](https://github.com/allenai/scifact)
-- [CLAIM-BENCH (IJCNLP 2025)](https://aclanthology.org/2025.ijcnlp-long.127/), a broader benchmark for claim extraction, evidence extraction, and claim-evidence validation.
-- [SciVER (ACL 2025)](https://aclanthology.org/2025.acl-long.420/), for multimodal scientific claim verification.
-- [CiteME (NeurIPS 2024)](https://proceedings.neurips.cc/paper_files/paper/2024/hash/0ef47f7b768e1a012e3d995ac8d8fac7-Abstract-Datasets_and_Benchmarks_Track.html), which studies citation attribution rather than evidence support classification.
-
-## Developer checks
-
-Run lightweight unit checks:
-
-    python -m unittest discover -s tests
-
-Run the fictional fixture evaluation:
-
-    python scripts/evaluate_demo.py
-
-The fixture's scores only confirm the demo evaluator plumbing; they are not project performance claims.
-
-## Structure
-
-    app.py                       Local interactive demo server
-    retrieval.py                 BM25 and TF-IDF retrievers
-    static/                      Browser interface
-    data/demo_corpus.json        Fictional passages
-    data/eval_queries.json       Fictional retrieval examples
-    data/SCIFACT_DATA.md         Data terms and attribution notes
-    scripts/evaluate_demo.py     Fictional fixture evaluation
-    scripts/evaluate_scifact.py  Real benchmark retrieval evaluation
-    tests/                       Retrieval baseline checks
-    benchmarks/                  SciFact dev results and input hashes
-
-## License
-
-ClaimScope code is released under the MIT License. Dataset terms are separate; see the data attribution note.
+MIT License for ClaimScope code. Dataset terms remain separate; see [Data and Licensing](data/SCIFACT_DATA.md).
+```

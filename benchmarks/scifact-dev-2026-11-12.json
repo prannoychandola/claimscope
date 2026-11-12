@@ -1,0 +1,31 @@
+{
+  "dataset": "SciFact",
+  "split": "dev",
+  "evaluated_on": "2026-11-12",
+  "corpus_documents": 5183,
+  "claims_in_split": 300,
+  "evidence_bearing_queries_evaluated": 188,
+  "claims_skipped_without_gold_evidence": 112,
+  "limited_run": false,
+  "files": {
+    "corpus.jsonl_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+    "claims_dev.jsonl_sha256": "86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217"
+  },
+  "metrics": {
+    "BM25": {
+      "1": {"recall_at_k": 0.712322695035461, "mrr_at_k": 0.7287234042553191},
+      "3": {"recall_at_k": 0.8289007092198583, "mrr_at_k": 0.7819148936170213},
+      "5": {"recall_at_k": 0.8718971631205673, "mrr_at_k": 0.7904255319148936},
+      "10": {"recall_at_k": 0.9305851063829786, "mrr_at_k": 0.7993203309692671},
+      "20": {"recall_at_k": 0.9425531914893617, "mrr_at_k": 0.8002130552662468}
+    },
+    "TF-IDF": {
+      "1": {"recall_at_k": 0.625886524822695, "mrr_at_k": 0.648936170212766},
+      "3": {"recall_at_k": 0.801418439716312, "mrr_at_k": 0.7189716312056738},
+      "5": {"recall_at_k": 0.8689716312056738, "mrr_at_k": 0.7343971631205674},
+      "10": {"recall_at_k": 0.9048758865248228, "mrr_at_k": 0.7391991725768321},
+      "20": {"recall_at_k": 0.938563829787234, "mrr_at_k": 0.741270896656535}
+    }
+  },
+  "metric_note": "Document-level evidence retrieval only; no support/refute classification."
+}
